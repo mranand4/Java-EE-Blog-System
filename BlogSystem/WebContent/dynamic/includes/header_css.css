@@ -1,0 +1,110 @@
+/* width of containers and nav bar is 640px from 0 to 720px */
+/* width of containers and nav bar is 720px for 720px to 1400px; */
+/* width will be 960px from 1400px to 2000px */
+/* width will be 1400px from and beyond 2000px */
+/* 10px gap should be there between section and aside */
+
+@media only screen and (min-width: 0px)  {
+#banner { width: 640px; }
+#global-nav-bar { width: 640px; }
+#container { width: 640px; }
+#container section { width: 640px; }
+#container aside { display: none; }
+}
+
+@media only screen and (min-width: 720px)  {
+#banner { width: 720px; }
+#global-nav-bar { width: 720px; }
+#container { width: 720px; }
+#container section { width: 490px; }
+#container aside { display: block; width: 220px; }
+}
+
+@media only screen and (min-width: 1400px)  {
+#banner { width: 960px; }
+#global-nav-bar { width: 960px; }
+#container { width: 960px; }
+#container aside { width: 300px; }
+#container section { display: block; width: 650px; }
+}
+
+@media only screen and (min-width: 2000px)  {
+#banner { width: 1400px; }
+#global-nav-bar { width: 1400px; }
+#container { width: 1400px; }
+#container aside { width: 390px; }
+#container section { display: block; width: 1000px; }
+}
+
+@font-face {
+font-family: libre-bold;
+src: url("static/fonts/in_use/LibreBaskerville-Bold.ttf");
+}
+
+@font-face {
+font-family: libre-regular;
+src: url("static/fonts/in_use/LibreBaskerville-Regular.ttf");
+}
+
+@font-face {
+font-family: libre-italic;
+src: url("static/fonts/in_use/LibreBaskerville-Italic.ttf");
+}
+
+@font-face {
+font-family: poppins-regular;
+src: url("static/fonts/in_use/Poppins-Regular.ttf");
+}
+
+@font-face {
+font-family: poppins-light;
+src: url("static/fonts/in_use/Poppins-Light.ttf");
+}
+
+@font-face {
+font-family: poppins-semibold;
+src: url("static/fonts/in_use/Poppins-SemiBold.ttf");
+}
+
+/* check for consolidate margins in container and global-nav */
+
+body {
+margin: 0;
+background-color: rgb(250,250,250); /* subtle white */
+font-size: 16px;
+font-family: poppins-regular, sans-serif;
+color: rgb(0,0,0);
+}
+
+h1,h2,h3,h4,h5, p {
+margin: 0;
+}
+
+#global-nav-bar {
+display:block;
+box-sizing: border-box;
+background-color: rgb(51,51,51); /* apple black */
+font-size: 0;
+margin: 0 auto;
+padding: 0;
+}
+
+#global-nav-bar li {
+display: inline-block;
+font-size: 16px;
+padding: 8px 16px;
+font-family: poppins-semibold;
+}
+
+#global-nav-bar a {
+color: rgb(255,255,255);
+text-decoration: none;
+}
+
+#banner {
+background-image: url("/blog_final_draft/static/imgs/banner.jpg");
+background-size: cover;
+background-position: center center;
+height: 136px;
+margin: 16px auto;
+}
