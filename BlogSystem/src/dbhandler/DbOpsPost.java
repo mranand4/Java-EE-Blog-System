@@ -183,45 +183,40 @@ public class DbOpsPost {
 			ps.setInt(1, uid);
 			ps.setString(2, title);		
 			ps.setString(3, date);
-			
-			if(body != null)
-				ps.setString(4, body);
-			
-			int r = ps.executeUpdate();
-			
-			int post_id = -1;
-			
-			ResultSet rs = ps.getGeneratedKeys();
-			
-			if(rs != null && rs.next()) {
-				post_id = rs.getInt(1);
-			}
-			
-			if(r == 1) {
+			ps.setString(4, body);
+				
+			if(ps.executeUpdate() == 1) {
+				
+				int post_id = -1;
+				
+				ResultSet rs = ps.getGeneratedKeys();
+				
+				if(rs != null && rs.next()) {
+					post_id = rs.getInt(1);
+				}
 				
 				ps2 = conn.prepareStatement(query2);
 				
 				ps2.setInt(1, post_id);
 				
-				if(body.length() > 400) {
+				if(body != null && body.length() > 400) {
 					body = body.substring(0, 397) + "...";
 				}
 				
 				ps2.setString(2, body);
 				
-				r = ps2.executeUpdate();
-				
-				if(r == 1)
-					return true;
+				return ps2.executeUpdate() == 1;
 				
 			}
 			
 			
 			
 		} catch(SQLException e) {
-			System.out.println(e.getMessage());
-			return false;
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());	
+
 		} finally {
+		
 			try {
 				ps.close();
 				if(ps2 != null)
@@ -229,6 +224,7 @@ public class DbOpsPost {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}			
+		
 		}
 		
 		return false;
@@ -249,38 +245,31 @@ public class DbOpsPost {
 			ps = conn.prepareStatement(query);
 			
 			ps.setString(1, title);	
+			ps.setString(2, body);
 			ps.setInt(3, uid);
 			ps.setInt(4,  postId);
 			
-			if(body != null)
-				ps.setString(2, body);
-			
-			int r = ps.executeUpdate();
-			
-			if(r == 1) {
+			if(ps.executeUpdate() == 1) {
 				
 				ps2 = conn.prepareStatement(query2);
 						
-				if(body.length() > 400) {
+				if(body != null && body.length() > 400) {
 					body = body.substring(0, 397) + "...";
 				}
 				
 				ps2.setString(1, body);
 				ps2.setInt(2, postId);
 				
-				r = ps2.executeUpdate();
-				
-				if(r == 1)
-					return true;
+				return ps2.executeUpdate() == 1;		
 				
 			}
 			
-			
-			
 		} catch(SQLException e) {
-			System.out.println(e.getMessage());
-			return false;
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());
+			
 		} finally {
+			
 			try {
 				ps.close();
 				if(ps2 != null)
@@ -288,6 +277,7 @@ public class DbOpsPost {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}			
+		
 		}
 		
 		return false;
