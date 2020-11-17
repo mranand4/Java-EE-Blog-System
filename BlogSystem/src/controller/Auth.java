@@ -1,11 +1,6 @@
-//NOTE : doPost forwards to doPost of a servlet, doGet forward to doGet, even if I call doGet from doPost and then forward to doPost of a server
-//it will go in doPost of that server ( I think it follows the METHOD Context)
-
-
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -47,10 +42,8 @@ public class Auth extends HttpServlet {
 		String email = request.getParameter("email");
 		String passwd = request.getParameter("password");
 		
-		
-		//check lengths at server side as client can bypass maxlength
-		
 		DbOpsUser dous = new DbOpsUser();
+		
 		int code = -1;
 		User user = null;
 		
@@ -65,6 +58,8 @@ public class Auth extends HttpServlet {
 				code = 2;
 			else 			
 				code = 3;		
+		} else {
+			response.getWriter().print("error");
 		}
 		
 		if(user != null) {
@@ -73,6 +68,7 @@ public class Auth extends HttpServlet {
 		}
 		
 		request.setAttribute("code", String.valueOf(code));
+		
 		doGet(request, response);
 		
 		

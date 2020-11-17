@@ -1,6 +1,6 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="beans.SummarisedPost"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -243,40 +243,26 @@ e.style.display = "block";
 	
 	<div id="container">
 		<section>
-			<h1 id="prev-post-title">
-			<c:choose>
-				<c:when test = "${ not empty posts}">
-					Your previous posts
-				</c:when>
-				<c:otherwise>
-					You haven't posted anything yet
-				</c:otherwise>
-			</c:choose>
-			</h1>
 			
 			<c:choose>
-				<c:when test = "${ not empty posts}">
-					<% 
-					ArrayList<SummarisedPost> arr = (ArrayList<SummarisedPost>)request.getAttribute("posts");
-					for(int i=0; i<arr.size(); i++) {
-						SummarisedPost hp = arr.get(i);
-					%>
-			<div class="post">
-				<%="<h1>" + hp.getTitle() + "</h1>"%>
-				<div class="post-info"><span><%= hp.getDate() %></span><label> | </label><span class="author"><%= hp.getFname() + " " + hp.getLname() %></span></div>
-				<%= "<p>" + hp.getSummary() + "</p>" %>
-				<div class="read-more-wrapper">
-					<a href="create_post?mode=edit&postId=<%= hp.getPostId() %>" class="read-more" target="_blank">Edit</a>
-				</div>
-			</div>
-			<% } %>
-				</c:when>
-					
+				<c:when test = "${not empty requestScope.posts}">
+					<h1 id="prev-post-title">Your previous posts</h1>
+					<c:forEach var="post" items="${requestScope.posts}">					
+						<div class="post">
+							<h1>${post.title}</h1>
+							<div class="post-info"><span>${post.date}</span><label> | </label><span class="author">${post.fname}&nbsp;${post.lname}</span></div>
+							<p>${post.summary}</p>
+							<div class="read-more-wrapper">
+								<a href="create_post?mode=edit&postId=${post.postId}" class="read-more" target="_blank">Edit</a>
+							</div>
+						</div>
+					</c:forEach>
+				</c:when>		
 				<c:otherwise>
+					<h1 id="prev-post-title">No previous posts</h1>
 					No posts yet, try creating one with the "Create Post" button on the black bar above ^
 				</c:otherwise>
-			</c:choose>
-			
+			</c:choose>		
 		</section>
 	</div>
 	
@@ -285,13 +271,13 @@ e.style.display = "block";
 			<h1>User Settings</h1>
 			<div>
 				<label>First Name</label>
-				<input type="text" placeholder="First Name" required="true" name="first_name" value = "${user.fname}"class="full-width"/>
+				<input type="text" placeholder="First Name" required="true" name="first_name" value = "${sessionScope.user.fname}"class="full-width"/>
 				<label>Last Name</label>
-				<input type="text" placeholder="Last Name" name="last_name" value = "${user.lname}" class="full-width" />
+				<input type="text" placeholder="Last Name" name="last_name" value = "${sessionScope.user.lname}" class="full-width" />
 				<label>Email</label>
-				<input type="email" placeholder="Email" required="true" value = "${user.email}" class="full-width" name="email"/>
+				<input type="email" placeholder="Email" required="true" value = "${sessionScope.user.email}" class="full-width" name="email"/>
 				<label>Password</label>
-				<input type="text" placeholder="Password" required="true"  value = "${user.passwd}"class="full-width" name="password" />
+				<input type="text" placeholder="Password" required="true"  value = "${sessionScope.user.passwd}"class="full-width" name="password" />
 				<button type="submit">APPLY</button>
 				<button type="button" onclick="toggleView('settings-container')">Close</button>
 			</div>

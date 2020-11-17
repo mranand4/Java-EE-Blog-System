@@ -181,10 +181,10 @@ centerVertical("sign-in-form");
 
 <form method="POST" id="sign-up-form" action="auth" >
 <h1>Create account</h1>
-<input type="text" placeholder="Last Name" class="name" name="last_name" style="float: right; margin-right: 3%;" />
-<input type="text" placeholder="First Name" required="true" class="name" name="first_name" style="margin-left: 3%;" />
-<input type="email" placeholder="Email" required="true" class="full-width" name="email"/>
-<input type="password" placeholder="Password" required="true" class="full-width" name="password" />
+<input type="text" placeholder="Last Name" class="name" name="last_name" style="float: right; margin-right: 3%;" maxlength="50"/>
+<input type="text" placeholder="First Name" required="true" class="name" name="first_name" style="margin-left: 3%;" maxlength="50" />
+<input type="email" placeholder="Email" required="true" class="full-width" name="email" maxlength="50"/>
+<input type="password" placeholder="Password" required="true" class="full-width" name="password" maxlength="50" />
 <label class="prompt">Already have an account ? <span onclick="toggleDisplay(0)">Sign In</span></label>
 <input type="hidden" value="sign_up" name="auth_type" />
 <input type="submit" value="Create account" class="full-width" />
@@ -192,8 +192,8 @@ centerVertical("sign-in-form");
 
 <form method="POST" id="sign-in-form"  action="auth">
 <h1>Log In</h1>
-<input type="email" placeholder="Email" required="true" class="full-width" name="email"/>
-<input type="password" placeholder="Password" required="true" class="full-width" name="password" />
+<input type="email" placeholder="Email" required="true" class="full-width" name="email" maxlength="50"/>
+<input type="password" placeholder="Password" required="true" class="full-width" name="password" maxlength="50" />
 <label class="prompt">Don't have an account ? <span onclick="toggleDisplay(1)">Sign Up</span></label>
 <input type="hidden" value="sign_in" name="auth_type" />
 <input type="submit" value="Continue" class="full-width" />

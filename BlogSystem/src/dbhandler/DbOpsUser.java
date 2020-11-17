@@ -11,17 +11,18 @@ import beans.User;
 
 public class DbOpsUser {
 	
-	private String uname = "root";
-	private String upass = "mypass_mysql_1";
-	private String url   = "jdbc:mysql://localhost:3306/db_blog";
+	private final String dbUserName = "root";
+	private final String dbUserPass = "mypass_mysql_1";
+	private final String dbURL   = "jdbc:mysql://localhost:3306/db_blog";
+	private final String driverClass = "com.mysql.cj.jdbc.Driver";
 	
 	private Connection conn;
 	
 	public boolean establishConnection() {
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); 
-			conn = DriverManager.getConnection(url, uname, upass);
+			Class.forName(driverClass); 
+			conn = DriverManager.getConnection(dbURL, dbUserName, dbUserPass);
 		} catch (ClassNotFoundException e) {
 			return false;
 		} catch (SQLException e) {
@@ -37,9 +38,9 @@ public class DbOpsUser {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public boolean createNewUser(String fname, String lname, String email, String passwd) {
@@ -49,31 +50,29 @@ public class DbOpsUser {
 		
 		try {
 			
-			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(query);
+			
 			ps.setString(1, fname);
+			ps.setString(2, lname);
 			ps.setString(3, email);
-			ps.setString(4, passwd);
-			if(lname != null)
-				ps.setString(2, lname);
+			ps.setString(4, passwd);		
 			
-			int r = ps.executeUpdate();
-			
-			if(r == 1) {
-				return true;
-			}
+			return ps.executeUpdate() == 1;
 			
 		} catch (SQLException e) {
-			System.out.println(e.getErrorCode() + " : : " + e.toString());
-			return false;
+			
+			System.out.println(e.getErrorCode() + " :: " + e.toString());
+		
 		} finally {
+			
 			try {
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
-		System.out.println("wont get print ever");
 		return false;
 	
 	}
@@ -82,14 +81,16 @@ public class DbOpsUser {
 		
 		String query = "SELECT uid, fname, lname, email FROM user WHERE email = ? AND passwd = ?";
 		PreparedStatement ps = null;
+		ResultSet rs = null;
 		
 		try {
+			
 			ps = conn.prepareStatement(query);
+			
 			ps.setString(1, email);
 			ps.setString(2, passwd);
 			
-			ResultSet rs = ps.executeQuery();
-			
+			rs = ps.executeQuery();
 			rs.next();
 			
 			if(rs.getString("email").equalsIgnoreCase(email)) {
@@ -98,19 +99,21 @@ public class DbOpsUser {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println(e.getErrorCode() + " : : " + e.toString());
-			return null;
+			
+			System.out.println(e.getErrorCode() + " :: " + e.toString());
+		
 		} finally {
+		
 			try {
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			
 			}
 		}
 		
-		
-		
 		return null;
+	
 	}
 	
 	public User updateUser(int uid, String fname, String lname, String email, String passwd) {
@@ -120,29 +123,30 @@ public class DbOpsUser {
 		
 		try {
 			
-			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement(query);
+			
 			ps.setString(1, fname);
 			ps.setString(2, lname);
 			ps.setString(3, email);
 			ps.setString(4, passwd);
 			
-			int r = ps.executeUpdate();
-			
-			if(r == 1) {
-				return new User(uid, fname, lname, email, passwd);
-			}
-					
-			
-		} catch(SQLException s) {
-			return null;
+			return ps.executeUpdate() == 1 ? new User(uid, fname, lname, email, passwd) : null;
+						
+		} catch(SQLException e) {
+		
+			System.out.println(e.getErrorCode() + " :: " + e.toString());
+		
 		} finally {
+		
 			try {
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}		
+		
 		}		
 		
 		return null;
+	
 	}
 }

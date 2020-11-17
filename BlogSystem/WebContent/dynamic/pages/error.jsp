@@ -87,7 +87,7 @@ font-size: 16px;
 </head>
 
 <body>
-	<h1>Error [Code]</h1>
+	<h1>Error ${param.err}</h1>
 	<p>Well that's a bummer ...</p>
 	<a href="index.jsp">Take me to home page</a>
 	<label>&nbsp;&nbsp;Or&nbsp;&nbsp;</label>

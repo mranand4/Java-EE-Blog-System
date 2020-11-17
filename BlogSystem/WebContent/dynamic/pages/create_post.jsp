@@ -65,7 +65,7 @@ color: rgb(255,255,255);
 
 
 <c:choose>
-	<c:when test="${not empty editablePost}">
+	<c:when test="${not empty requestScope.editablePost}">
 		function updatePost() {
 			var f = document.getElementById("post");
 			
@@ -114,7 +114,7 @@ window.history.back();
 	<ul id="global-nav-bar">
 		<li onclick="goBack()">Back</li>
 		<c:choose>
-			<c:when test="${not empty editablePost}">
+			<c:when test="${not empty requestScope.editablePost}">
 				<li onclick="updatePost()">Update</li>
 				<li onclick="deletePost()">Delete</li>		
 			</c:when>
@@ -128,12 +128,12 @@ window.history.back();
 	<div id="container">
 	
 		<form method="POST" action="create_post" id="post">
-			<input type="text" placeholder="Title goes here ... " required="true" name="title" class="full-width" id="title" value="${editablePost.title }"/>
-			<div id="post-info"><input type="date" required="true" name="date" id="date"  value="${editablePost.date }"/><label> | </label><input type="text" required="true" name="auth" value="${user.fname} ${user.lname}"/></div>
-			<textarea name="body" placeholder="Type here ...">${editablePost.body }</textarea>
+			<input type="text" placeholder="Title goes here ... " required="true" name="title" class="full-width" id="title" value="${requestScope.editablePost.title }"/>
+			<div id="post-info"><input type="date" required="true" name="date" id="date"  value="${requestScope.editablePost.date }"/><label> | </label><input type="text" required="true" name="auth" value="${sessionScope.user.fname}&nbsp;${sessionScope.user.lname}"/></div>
+			<textarea name="body" placeholder="Type here ...">${requestScope.editablePost.body }</textarea>
 			<input type="hidden" name="mode" value="create" id="mode"/>
-			<c:if test="${not empty editablePost }">
-				<input type="hidden" name="pid" value="${editablePost.postId }" />
+			<c:if test="${not empty requestScope.editablePost }">
+				<input type="hidden" name="pid" value="${requestScope.editablePost.postId }" />
 			</c:if>		
 		</form>
 

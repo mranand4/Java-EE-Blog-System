@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import beans.BlogPost;
 import dbhandler.DbOpsPost;
+import utils.ErrorMan;
 
 
 public class Post extends HttpServlet {
@@ -22,7 +23,7 @@ public class Post extends HttpServlet {
 		int postId = -1;
 		
 		try {
-			postId = Integer.parseInt(request.getParameter("id"));
+			postId = Integer.parseInt(request.getParameter("postId"));
 		} catch(NumberFormatException e) {
 			postId = -1;
 		}
@@ -37,8 +38,6 @@ public class Post extends HttpServlet {
 			rd.forward(request, response);
 			
 		} else {
-			
-			response.getWriter().print("Post doesn't exists :[");
 			
 		}
 	}

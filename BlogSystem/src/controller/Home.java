@@ -25,13 +25,12 @@ public class Home extends HttpServlet {
 		if(dops.establishConnection())
 			posts = dops.getHomepagePosts();
 		
-		if(posts == null) {
-			response.getWriter().write("Some error occurred :[");
-		} else {
-			request.setAttribute("posts", posts);		
-			RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/index.jsp");
-			rd.forward(request, response);	
-		}	
+		
+		//logic to handle null posts in on the jsp itself
+		request.setAttribute("posts", posts);		
+		
+		RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/index.jsp");
+		rd.forward(request, response);	
 			
 	}
 

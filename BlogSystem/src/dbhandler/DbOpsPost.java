@@ -13,17 +13,18 @@ import beans.BlogPost;
 
 public class DbOpsPost {
 	
-	private String uname = "root";
-	private String upass = "mypass_mysql_1";
-	private String url   = "jdbc:mysql://localhost:3306/db_blog";
+	private final String dbUserName = "root";
+	private final String dbUserPass = "mypass_mysql_1";
+	private final String dbURL   = "jdbc:mysql://localhost:3306/db_blog";
+	private final String driverClass = "com.mysql.cj.jdbc.Driver";
 	
 	private Connection conn;
 	
 	public boolean establishConnection() {
 		
 		try {
-			Class.forName("com.mysql.jdbc.Driver"); 
-			conn = DriverManager.getConnection(url, uname, upass);
+			Class.forName(driverClass); 
+			conn = DriverManager.getConnection(dbURL, dbUserName, dbUserPass);
 		} catch (ClassNotFoundException e) {
 			return false;
 		} catch (SQLException e) {
@@ -39,28 +40,34 @@ public class DbOpsPost {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
+	
+
 	
 	public ArrayList<SummarisedPost> getHomepagePosts() {
 		
 		ArrayList<SummarisedPost> posts = new ArrayList<>();
+		
 		String query = "SELECT post_summary.post_id, title, date, summary, "
 				+ "fname, lname FROM post_summary INNER JOIN post"
 				+ " ON post.post_id = post_summary.post_id INNER JOIN"
 				+ " user ON user.uid = post.uid ORDER BY post.post_id DESC";
 		
+		Statement smt = null;
+		ResultSet rs  = null;
+		
 		try {
 			
-			Statement smt = conn.createStatement();
-			ResultSet rs = smt.executeQuery(query);
+			smt = conn.createStatement();
+			rs = smt.executeQuery(query);
 			
 			while(rs.next()) {
 				SummarisedPost sp = new SummarisedPost(rs.getInt("post_id"), 
 						rs.getString("title"), 
-						rs.getDate("date").toLocaleString(), 
+						rs.getDate("date").toString(), 
 						rs.getString("fname"), 
 						rs.getString("lname"),
 						rs.getString("summary"));
@@ -68,12 +75,19 @@ public class DbOpsPost {
 				posts.add(sp);
 			}
 			
-			rs.close();
-			smt.close();
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+			System.out.println(e.getErrorCode() + " :: " + e.toString());
+			
+		} finally {
+			
+			try {
+				smt.close();
+				rs.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		return posts;
@@ -83,20 +97,24 @@ public class DbOpsPost {
 	public ArrayList<SummarisedPost> getUserPosts(int uid) {
 		
 		ArrayList<SummarisedPost> posts = new ArrayList<>();
+		
 		String query = "SELECT post_summary.post_id, title, date, summary, "
 				+ "fname, lname FROM post_summary INNER JOIN post ON post.post_id"
 				+ " = post_summary.post_id INNER JOIN user ON user.uid"
 				+ " = post.uid WHERE user.uid = " + uid + " ORDER BY post.post_id DESC";
 		
+		Statement smt = null;
+		ResultSet rs  = null;
+		
 		try {
 			
-			Statement smt = conn.createStatement();
-			ResultSet rs = smt.executeQuery(query);
+			smt = conn.createStatement();
+			rs = smt.executeQuery(query);
 			
 			while(rs.next()) {
 				SummarisedPost sp = new SummarisedPost(rs.getInt("post_id"),
 						rs.getString("title"), 
-						rs.getDate("date").toLocaleString(), 
+						rs.getDate("date").toString(), 
 						rs.getString("fname"),
 						rs.getString("lname"), 
 						rs.getString("summary"));
@@ -108,8 +126,18 @@ public class DbOpsPost {
 			smt.close();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			System.out.println(e.getErrorCode() + " :: " + e.toString());
+			
+		} finally {
+			
+			try {
+				smt.close();
+				rs.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		return posts;
@@ -127,7 +155,7 @@ public class DbOpsPost {
 			ResultSet rs = smt.executeQuery(query);
 			
 			while(rs.next()) {
-				post = new BlogPost(rs.getInt("post_id"), rs.getInt("uid"), rs.getString("title"), rs.getDate("date").toLocaleString(), rs.getString("fname"), rs.getString("lname"), rs.getString("body"));
+				post = new BlogPost(rs.getInt("post_id"), rs.getInt("uid"), rs.getString("title"), rs.getDate("date").toString(), rs.getString("fname"), rs.getString("lname"), rs.getString("body"));
 			}
 			
 			rs.close();
@@ -280,35 +308,28 @@ public class DbOpsPost {
 			
 			ResultSet rs = ps.executeQuery();
 			
-			if(rs.next()) {
-				int r = rs.getInt(1);
-				if(r == 1)
-					return true;
-				else
-					return false;
-			}
-			
+			return rs.next() && rs.getInt(1) == 1;
 			
 		} catch(SQLException e) {
-			System.out.println(e.getMessage());
-			return false;
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());	
 			
 		} finally {
+			
 			try {
 				ps.close();
 			} catch(SQLException e) {
 				e.printStackTrace();
+			
 			}
 		}
 		
-		
 		return false;
+	
 	}
 	
 	
 	public boolean deletePost(int uid, int post_id) {
-		
-		System.out.println("Del post called with uid = " + uid + " post_id = " + post_id);
 		
 		String query = "DELETE FROM post WHERE uid = ? AND post_id = ?";
 		
@@ -320,29 +341,24 @@ public class DbOpsPost {
 			ps.setInt(1, uid);
 			ps.setInt(2, post_id);
 			
-			int r = ps.executeUpdate();
-			
-			System.out.println(r);
-			
-			if(r == 1)
-				return true;
-			else
-				return false;
-			
+			return ps.executeUpdate() == 1;
 			
 		} catch(SQLException e) {
-			System.out.println(e.getMessage());			
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
 		} finally {
+			
 			try {
 				ps.close();
 			} catch(SQLException e) {
 				e.printStackTrace();
+			
 			}
 		}
-		
-		System.out.println("will return false");
-		
+				
 		return false;
+	
 	}
 
 }

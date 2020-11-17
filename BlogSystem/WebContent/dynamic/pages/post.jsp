@@ -75,6 +75,44 @@ text-align: justify;
 
 
 </style>
+
+<script type="text/javascript">
+
+function ordinalSuffixOf(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}
+
+function getOrdinalDate(d) {
+	
+	var yy = d.substring(0, d.indexOf('-'));
+	var mm = d.substring(d.indexOf('-') + 1, d.lastIndexOf('-'));
+	var dd = d.substring(d.lastIndexOf('-') + 1);
+	
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	
+	var rd = ordinalSuffixOf(parseInt(dd)) + " " + months[parseInt(mm) - 1] + ", " + yy;
+
+	return rd;
+	
+	
+}
+
+
+</script>
+
+
+
 </head>
 
 <body>
@@ -83,24 +121,10 @@ text-align: justify;
 	
 	<ul id="global-nav-bar">
 		<li>
-		<a href="#">Home</a>
-		</li>
-		<li>
-		<a href="#">Projects</a>
-		</li>
-		<li>
-		<a href="#">Wisdom</a>
-		</li>
-		<li>
-		<a href="#">Movies</a>
-		</li>
-		<li>
-		<a href="#">About</a>
-		</li>
-		<li>
-		<a href="#">More</a>
+		<a href="home">Home</a>
 		</li>
 	</ul>
+	
 	<div id="container">
 		<aside>
 			<div class="sidebar-box">
@@ -119,9 +143,9 @@ text-align: justify;
 		</aside>
 		<section>
 			<div class="post">
-				<h1>${blogPost.title}</h1>
-				<div class="post-info"><span>${blogPost.date}</span><label> | </label><span class="author">${blogPost.fname}&nbsp;${blogPost.lname}</span></div>
-				<p>${blogPost.body}</p>
+				<h1>${requestScope.blogPost.title}</h1>
+				<div class="post-info"><span><script type="text/javascript">document.write(getOrdinalDate("${requestScope.blogPost.date}"));</script></span><label>&nbsp;|&nbsp;</label><span class="author">${requestScope.blogPost.fname}&nbsp;${requestScope.blogPost.lname}</span></div>
+				<p>${requestScope.blogPost.body}</p>
 			</div>
 		</section>
 	</div>
