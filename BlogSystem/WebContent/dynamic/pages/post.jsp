@@ -144,7 +144,7 @@ function getOrdinalDate(d) {
 		<section>
 			<div class="post">
 				<h1>${requestScope.blogPost.title}</h1>
-				<div class="post-info"><span><script type="text/javascript">document.write(getOrdinalDate("${requestScope.blogPost.date}"));</script></span><label>&nbsp;|&nbsp;</label><span class="author">${requestScope.blogPost.fname}&nbsp;${requestScope.blogPost.lname}</span></div>
+				<div class="post-info"><span>${requestScope.blogPost.odate}</span><label>&nbsp;|&nbsp;</label><span class="author">${requestScope.blogPost.fname}&nbsp;${requestScope.blogPost.lname}</span></div>
 				<p>${requestScope.blogPost.body}</p>
 			</div>
 		</section>

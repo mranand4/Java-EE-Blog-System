@@ -7,6 +7,7 @@ public class SummarisedPost implements Serializable {
 	private int postId;
 	private String title;
 	private String date;
+	private String odate;
 	private String fname;
 	private String lname;
 	private String summary;
@@ -74,6 +75,41 @@ public class SummarisedPost implements Serializable {
 		this.summary = summary;
 	}
 	
+	private String getOrdinalSuffixOf(int i) {
+		
+	    int j = i % 10;
+	    int k = i % 100;
+	    
+	    if (j == 1 && k != 11) {
+	        return i + "st";
+	    }
+	    if (j == 2 && k != 12) {
+	        return i + "nd";
+	    }
+	    if (j == 3 && k != 13) {
+	        return i + "rd";
+	    }
+	    
+	    return i + "th";
+	}
+
+	public String getOdate() {
+		
+		String d = date;
+		
+		String yy = d.substring(0, d.indexOf('-'));
+		String mm = d.substring(d.indexOf('-') + 1, d.lastIndexOf('-'));
+		String dd = d.substring(d.lastIndexOf('-') + 1);
+		
+		String months[] = new String[] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+		
+		String rd = getOrdinalSuffixOf(Integer.parseInt(dd)) + " " + months[Integer.parseInt(mm) - 1] + ", " + yy;
+
+		return rd;
+		
+		
+	}
+
 	
 	
 	

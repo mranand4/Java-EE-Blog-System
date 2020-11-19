@@ -90,8 +90,8 @@ public class DbOpsPost {
 			
 		}
 		
-		return posts;
-			
+		return posts.size() > 0 ? posts : null;
+	
 	}
 	
 	public ArrayList<SummarisedPost> getUserPosts(int uid) {
@@ -140,7 +140,8 @@ public class DbOpsPost {
 			
 		}
 		
-		return posts;
+
+		return posts.size() > 0 ? posts : null;
 			
 	}
 	

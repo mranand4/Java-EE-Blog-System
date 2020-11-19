@@ -24,9 +24,7 @@ public class Home extends HttpServlet {
 		
 		if(dops.establishConnection())
 			posts = dops.getHomepagePosts();
-		
-		
-		//logic to handle null posts in on the jsp itself
+	
 		request.setAttribute("posts", posts);		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/index.jsp");

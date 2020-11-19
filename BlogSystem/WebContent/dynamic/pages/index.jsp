@@ -129,9 +129,8 @@ function getOrdinalDate(d) {
 	</div>
 	
 	<ul id="global-nav-bar">
-		<li>
-		<a href="#" style="text-decoration: underline;">Home</a>
-		</li>
+		<li><a href="#" style="text-decoration: underline;">Home</a></li>
+		<li><a href="auth">Sign Up/In</a></li>
 	</ul>
 	<div id="container">
 		<aside>
@@ -173,7 +172,7 @@ function getOrdinalDate(d) {
 					<c:forEach var="post" items="${requestScope.posts}">					
 						<div class="post">
 							<h1>${post.title}</h1>
-							<div class="post-info"><span><script type="text/javascript">document.write(getOrdinalDate("${post.date}"));</script></span><label>&nbsp;|&nbsp;</label><span class="author">${post.fname}&nbsp;${post.lname}</span></div>
+							<div class="post-info"><span>${post.odate}</span><label>&nbsp;|&nbsp;</label><span class="author">${post.fname}&nbsp;${post.lname}</span></div>
 							<p>${post.summary}</p>
 							<div class="read-more-wrapper">
 								<a href="post?postId=${post.postId}" class="read-more" target="_blank">Read More</a>

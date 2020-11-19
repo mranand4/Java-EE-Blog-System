@@ -236,6 +236,7 @@ e.style.display = "block";
 	<ul id="global-nav-bar">
 		<li>${sessionScope.user.fname}&nbsp;${sessionScope.user.lname}</li>
 		<li>|</li>
+		<li><a href="home" target="_blank">Home Page</a></li>
 		<li><a href="create_post?mode=create">Create Post</a></li>
 		<li onclick="toggleView('settings-container')">User Settings</li>
 		<li><a href="logout">Log Out</a></li>
@@ -250,7 +251,7 @@ e.style.display = "block";
 					<c:forEach var="post" items="${requestScope.posts}">					
 						<div class="post">
 							<h1>${post.title}</h1>
-							<div class="post-info"><span>${post.date}</span><label> | </label><span class="author">${post.fname}&nbsp;${post.lname}</span></div>
+							<div class="post-info"><span>${post.odate}</span><label> | </label><span class="author">${post.fname}&nbsp;${post.lname}</span></div>
 							<p>${post.summary}</p>
 							<div class="read-more-wrapper">
 								<a href="create_post?mode=edit&postId=${post.postId}" class="read-more" target="_blank">Edit</a>

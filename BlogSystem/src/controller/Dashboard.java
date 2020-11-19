@@ -33,9 +33,6 @@ public class Dashboard extends HttpServlet {
 			if(dop.establishConnection())
 				posts = dop.getUserPosts(user.getUid());
 			
-			if(posts == null || posts.size() == 0)
-				posts = null;
-			
 			request.setAttribute("posts", posts);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/dashboard.jsp");		
