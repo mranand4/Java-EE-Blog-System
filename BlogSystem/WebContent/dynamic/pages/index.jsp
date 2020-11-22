@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="dynamic/includes/cal.js"></script>
 <style type="text/css">
 
 <%@ include file="../includes/header_css.css" %>
@@ -39,6 +40,15 @@ width: 100%;
 box-sizing: border-box;
 background-color: rgb(255,255,255);
 padding: 4px;
+}
+
+.sidebar-box-body table {
+width: 100%;
+text-align: center;
+}
+
+.sidebar-box-body table td {
+padding: 2px;
 }
 
 .post {
@@ -87,38 +97,10 @@ font-size: 16px;
 </style>
 
 <script type="text/javascript">
-
-function ordinalSuffixOf(i) {
-    var j = i % 10,
-        k = i % 100;
-    if (j == 1 && k != 11) {
-        return i + "st";
-    }
-    if (j == 2 && k != 12) {
-        return i + "nd";
-    }
-    if (j == 3 && k != 13) {
-        return i + "rd";
-    }
-    return i + "th";
+window.onload = function() {
+	var d = new Date();
+	createCalendar("cal", d.getFullYear(), d.getMonth() + 1, d.getDate());
 }
-
-function getOrdinalDate(d) {
-	
-	var yy = d.substring(0, d.indexOf('-'));
-	var mm = d.substring(d.indexOf('-') + 1, d.lastIndexOf('-'));
-	var dd = d.substring(d.lastIndexOf('-') + 1);
-	
-	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	
-	var rd = ordinalSuffixOf(parseInt(dd)) + " " + months[parseInt(mm) - 1] + ", " + yy;
-
-	return rd;
-	
-	
-}
-
-
 </script>
 
 
@@ -151,7 +133,7 @@ function getOrdinalDate(d) {
 			</div>
 			<div class="sidebar-box">
 				<h3>Calendar</h3>
-				<div class="sidebar-box-body">
+				<div class="sidebar-box-body" id="cal">
 				</div>
 			</div>
 			<div class="sidebar-box">

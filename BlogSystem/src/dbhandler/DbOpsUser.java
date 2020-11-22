@@ -82,9 +82,13 @@ public class DbOpsUser {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
+		System.out.println(passwd);
+		
 		try {
 			
 			ps = conn.prepareStatement(query);
+			
+		
 			
 			ps.setString(1, email);
 			ps.setString(2, passwd);
