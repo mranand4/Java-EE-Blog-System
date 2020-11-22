@@ -22,3 +22,9 @@ post_id INT NOT NULL,
 summary TEXT(400),
 poster TEXT(300)
 );
+
+CREATE TABLE post_views(
+post_id INT NOT NULL UNIQUE,
+view_count INT DEFAULT 0,
+title VARCHAR(255) NOT NULL
+);

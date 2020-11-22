@@ -10,6 +10,7 @@ import java.util.*;
 
 import beans.SummarisedPost;
 import beans.BlogPost;
+import beans.MostViewedPost;
 
 public class DbOpsPost {
 	
@@ -206,7 +207,7 @@ public class DbOpsPost {
 				
 				ps2.setString(2, body);
 				
-				return ps2.executeUpdate() == 1;
+				return ps2.executeUpdate() == 1 && initViewCounter(post_id, title);
 				
 			}
 			
@@ -261,7 +262,7 @@ public class DbOpsPost {
 				ps2.setString(1, body);
 				ps2.setInt(2, postId);
 				
-				return ps2.executeUpdate() == 1;		
+				return ps2.executeUpdate() == 1 && updatePostViews(postId, title);		
 				
 			}
 			
@@ -332,6 +333,111 @@ public class DbOpsPost {
 			ps.setInt(1, uid);
 			ps.setInt(2, post_id);
 			
+			return ps.executeUpdate() == 1 && deletePostSummary(post_id) && deletePostViews(post_id);
+			
+		} catch(SQLException e) {
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
+		} finally {
+			
+			try {
+				ps.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			
+			}
+		}
+				
+		return false;
+	
+	}
+	
+	public boolean incrementPostViews(int post_id) {
+		
+		String query = "UPDATE post_views SET view_count = view_count + 1 WHERE post_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, post_id);
+			
+			return ps.executeUpdate() == 1;
+			
+		} catch(SQLException e) {
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
+		} finally {
+			
+			try {
+				ps.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			
+			}
+			
+		}
+		
+		return false;
+	
+	}
+	
+	public ArrayList<MostViewedPost> getMostViewedPost(int limit) {
+		
+		ArrayList<MostViewedPost> mvps = new ArrayList<MostViewedPost>();
+		
+		String query = "SELECT * FROM post_views ORDER BY view_count DESC LIMIT ?" ;
+		
+		PreparedStatement ps = null;
+		
+		try {
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, limit);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				MostViewedPost mvp = new MostViewedPost(rs.getInt("post_id"),rs.getInt("view_count"), rs.getString("title"));
+				
+				mvps.add(mvp);
+				
+			}
+			
+		} catch(SQLException e) {
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
+		} finally {
+			
+			try {
+				ps.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			
+			}
+		}
+		
+		return mvps;
+		
+	}
+	
+	
+	private boolean deletePostSummary(int post_id) {
+		
+		String query = "DELETE FROM post_summary WHERE post_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, post_id);
+			
 			return ps.executeUpdate() == 1;
 			
 		} catch(SQLException e) {
@@ -350,6 +456,102 @@ public class DbOpsPost {
 				
 		return false;
 	
+	}
+	
+	private boolean deletePostViews(int post_id) {
+		
+		String query = "DELETE FROM post_views WHERE post_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, post_id);
+			
+			return ps.executeUpdate() == 1;
+			
+		} catch(SQLException e) {
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
+		} finally {
+			
+			try {
+				ps.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			
+			}
+		}
+				
+		return false;
+	
+	}
+	
+	private boolean updatePostViews(int post_id, String title) {
+		
+		String query = "UPDATE post_views SET title = ? WHERE post_id = ?";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			
+			ps = conn.prepareStatement(query);
+			ps.setString(1, title);
+			ps.setInt(2, post_id);
+			
+			return ps.executeUpdate() == 1;
+			
+		} catch(SQLException e) {
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
+		} finally {
+			
+			try {
+				ps.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			
+			}
+		}
+				
+		return false;
+	
+	}
+	
+	private boolean initViewCounter(int post_id, String title) {
+		
+		String query = "INSERT INTO post_views (post_id, title) VALUES (?, ?)";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, post_id);
+			ps.setString(2, title);
+			
+			return ps.executeUpdate() == 1;
+			
+		} catch(SQLException e) {
+			
+			System.out.println(e.getErrorCode() + " :: " + e.getMessage());			
+		
+		} finally {
+			
+			try {
+				ps.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			
+			}
+			
+		}
+		
+		return false;
+		
 	}
 
 }

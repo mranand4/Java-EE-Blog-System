@@ -51,6 +51,10 @@ text-align: center;
 padding: 2px;
 }
 
+.sidebar-box-body ol {
+margin: 0;
+}
+
 .post {
 width: 100%;
 background-color: white;
@@ -137,8 +141,13 @@ window.onload = function() {
 				</div>
 			</div>
 			<div class="sidebar-box">
-				<h3>Top Posts</h3>
+				<h3>Most View Posts</h3>
 				<div class="sidebar-box-body">
+					<ol>
+						<c:forEach var="mvp" items="${requestScope.mvps}">
+							<li><a href="post?postId=${mvp.postId}" target="_blank">${mvp.title}</a></li>
+						</c:forEach>
+					</ol>
 				</div>
 			</div>
 			<div class="sidebar-box">

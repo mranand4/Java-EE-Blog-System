@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import beans.MostViewedPost;
 import beans.SummarisedPost;
 import dbhandler.DbOpsPost;
 
@@ -24,8 +25,11 @@ public class Home extends HttpServlet {
 		
 		if(dops.establishConnection())
 			posts = dops.getHomepagePosts();
+		
+		ArrayList<MostViewedPost> mvps = dops.getMostViewedPost(5);
 	
 		request.setAttribute("posts", posts);		
+		request.setAttribute("mvps", mvps);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/index.jsp");
 		rd.forward(request, response);	

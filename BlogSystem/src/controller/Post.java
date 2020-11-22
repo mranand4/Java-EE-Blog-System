@@ -32,6 +32,8 @@ public class Post extends HttpServlet {
 			bp = dops.getFullPost(postId);
 		
 		if(bp != null) {
+			if(dops.incrementPostViews(postId))
+				System.out.println("counter increased !");
 			
 			request.setAttribute("blogPost", bp);
 			RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/post.jsp");
@@ -40,6 +42,7 @@ public class Post extends HttpServlet {
 		} else {
 			
 		}
+		
 	}
 
 }
