@@ -6,13 +6,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import beans.SummarisedPost;
 import beans.BlogPost;
+import beans.DailyQuote;
 import beans.MostViewedPost;
 
 public class DbOpsPost {
+	
+	// messed up but working, rename date column to something else, I don't know why it's working cause mysql has a date datatype
 	
 	private final String dbUserName = "root";
 	private final String dbUserPass = "mypass_mysql_1";
@@ -423,6 +429,58 @@ public class DbOpsPost {
 		}
 		
 		return mvps;
+		
+	}
+	
+	//not really related to posts but putting it here cause we make a connection using this class in Home Servlet where we need the quote, so only 1 connection will be there !
+	public DailyQuote getTodaysQuote() {
+		
+		DailyQuote dq = new DailyQuote();
+		LocalDate currDate = LocalDate.now();
+		LocalDate yearStart = LocalDate.parse(currDate.getYear() + "-01-01");
+		
+		Period period = Period.between(yearStart, currDate);
+		
+		int diff = (int)ChronoUnit.DAYS.between(yearStart, currDate);
+		
+		String query = "SELECT quote_id, quote, author FROM daily_quotes WHERE quote_id = ?%(SELECT COUNT(quote_id) FROM daily_quotes) + 1";
+		
+		PreparedStatement ps = null;
+		
+		System.out.println("Days passed : " + diff);
+		
+		try {
+			ps = conn.prepareStatement(query);
+			
+			ps.setInt(1, diff);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				dq.setAuth(rs.getString("author"));
+				dq.setQuote(rs.getString("quote"));
+				dq.setQuoteId(rs.getInt("quote_id"));
+			}
+			
+			rs.close();
+			
+		} catch(SQLException e) {
+		
+			System.out.println(e.getErrorCode() + " :: " + e.toString());
+		
+		} finally {
+		
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}		
+		
+		}		
+		
+		return dq;
+		
+		
 		
 	}
 	

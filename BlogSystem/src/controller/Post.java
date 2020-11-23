@@ -35,6 +35,8 @@ public class Post extends HttpServlet {
 			if(dops.incrementPostViews(postId))
 				System.out.println("counter increased !");
 			
+			
+			request.setAttribute("dailyQuote", dops.getTodaysQuote());
 			request.setAttribute("blogPost", bp);
 			RequestDispatcher rd = request.getRequestDispatcher("dynamic/pages/post.jsp");
 			rd.forward(request, response);

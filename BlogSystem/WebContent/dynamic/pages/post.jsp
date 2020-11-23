@@ -128,10 +128,11 @@ function getOrdinalDate(d) {
 	<div id="container">
 		<aside>
 			<div class="sidebar-box">
-			<h3>Quotes</h3>
-			<div class="sidebar-box-body">
-			<q>Success is not final, failure is not fatal, it's the courage to continue which counts</q>
-			</div>
+				<h3>Daily Quote&nbsp;&nbsp;#${requestScope.dailyQuote.quoteId}</h3>
+				<div class="sidebar-box-body"  style="text-align: justify;">
+				<q>${requestScope.dailyQuote.quote }</q>
+				<p style="font-style: italic; margin-top: 4px;">&mdash;&nbsp;${requestScope.dailyQuote.auth }</p>
+				</div>
 			</div>
 			<div class="sidebar-box">
 			<h3>Prev/Next</h3>

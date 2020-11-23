@@ -28,3 +28,16 @@ post_id INT NOT NULL UNIQUE,
 view_count INT DEFAULT 0,
 title VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE daily_quotes(
+quote_id SMALLINT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+quote VARCHAR(255) NOT NULL,
+author VARCHAR(100) DEFAULT "Anonymous"
+
+
+
+/* this query gives the size of the database */
+SELECT table_schema "db_blog",
+        ROUND(SUM(data_length + index_length) / 1024 / 1024, 1) "DB Size in MB" 
+FROM information_schema.tables 
+GROUP BY table_schema; 

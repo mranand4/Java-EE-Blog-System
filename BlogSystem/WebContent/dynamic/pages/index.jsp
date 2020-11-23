@@ -130,9 +130,10 @@ window.onload = function() {
 				</div>
 			</div>
 			<div class="sidebar-box">
-				<h3>Quotes</h3>
-				<div class="sidebar-box-body">
-				<q>Success is not final, failure is not fatal, it's the courage to continue which counts</q>
+				<h3>Daily Quote&nbsp;&nbsp;#${requestScope.dailyQuote.quoteId}</h3>
+				<div class="sidebar-box-body"  style="text-align: justify;">
+				<q>${requestScope.dailyQuote.quote }</q>
+				<p style="font-style: italic; margin-top: 4px;">&mdash;&nbsp;${requestScope.dailyQuote.auth }</p>
 				</div>
 			</div>
 			<div class="sidebar-box">
@@ -141,7 +142,7 @@ window.onload = function() {
 				</div>
 			</div>
 			<div class="sidebar-box">
-				<h3>Most View Posts</h3>
+				<h3>Most Viewed Posts</h3>
 				<div class="sidebar-box-body">
 					<ol>
 						<c:forEach var="mvp" items="${requestScope.mvps}">
@@ -153,6 +154,11 @@ window.onload = function() {
 			<div class="sidebar-box">
 				<h3>Useful links</h3>
 				<div class="sidebar-box-body">
+					<ol>
+						<li><a href="https://pursuitofwonder.com/" target="_blank">Pursuit Of Wonder</a></li>
+						<li><a href="http://www.stewardshipreport.com/himalayas-from-indiapakistan-to-bhutan-nepal-chinese-tibet/" target="_blank">Himalayan Journey</a></li>
+						<li><a href="https://makefrontendshitagain.party/" target="_blank">Make Frontend Shit Again</a></li>
+					</ol>
 				</div>
 			</div>
 		</aside>
