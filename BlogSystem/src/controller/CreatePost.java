@@ -82,7 +82,8 @@ public class CreatePost extends HttpServlet {
 							rd.forward(request, response);
 							
 					}
-									
+			
+					
 				} 
 					
 			}
@@ -98,6 +99,10 @@ public class CreatePost extends HttpServlet {
 		String body = request.getParameter("body");
 		String mode = request.getParameter("mode");
 		String postId = request.getParameter("pid");
+		
+		System.out.println(body);
+		
+		
 		
 		DbOpsPost dop = new DbOpsPost();
 		User user = (User)request.getSession().getAttribute("user");
@@ -132,6 +137,7 @@ public class CreatePost extends HttpServlet {
 		}
 		
 	}
+	
 
 
 

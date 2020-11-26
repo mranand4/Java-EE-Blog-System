@@ -124,7 +124,7 @@ window.onload = function() {
 				<h3>Search</h3>
 				<div class="sidebar-box-body">
 				<form method="GET" action="#" target="_blank" style="margin: 0">
-				<input type="text" placeholder="Search here ..." name="searchbox"  style="display: inline-block; width: 100%; border-radius: 0; border-color: rgb(0,49,82); " />
+				<input type="text" placeholder="TO BE IMPLEMENTED" name="searchbox"  style="display: inline-block; width: 100%; border-radius: 0; border-color: rgb(0,49,82); " />
 				<input type="submit" value="Search"style="margin-top: 4px; display: inline-block; outline: none; border: none; background-color: rgb(0,49,82); color: rgb(255,255,255);" />
 				</form>
 				</div>

@@ -2,8 +2,12 @@
 
 
 <html>
+
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 <style type="text/css">
 
 <%@ include file="../includes/header_css.css" %>
@@ -57,7 +61,6 @@ color: rgb(255,255,255);
 }
 
 
-
 </style>
 
 <script type="text/javascript">
@@ -74,6 +77,8 @@ color: rgb(255,255,255);
 			
 			var tit = document.getElementById("title");
 			var d   = document.getElementById("date");
+			
+			f.appendChild(getBodyContent());
 		
 			if(d.value && tit.value)
 				f.submit();
@@ -97,10 +102,14 @@ color: rgb(255,255,255);
 	
 		var tit = document.getElementById("title");
 		var d   = document.getElementById("date");
+			
+		f.appendChild(getBodyContent());
+
 	
 		if(d.value && tit.value)
 			f.submit();
 	}
+	
 	
 	function getOrdinalSuffixOf(i) {
 		
@@ -156,10 +165,22 @@ function goBack() {
 window.history.back();	
 }
 
+function getBodyContent() {
+	var body = document.createElement("input");
+	body.setAttribute("type", "hidden");
+	body.setAttribute("value", getUserContent());
+	body.setAttribute("name", "body");	
+	return body;
+}
+
 window.onload = function() { setDate(); }
 
 
 </script>
+
+<script type="text/javascript" src="static/editor/widgEditor.js"></script>
+<link rel="stylesheet" type="text/css" href="static/editor/css/widgEditor.css" />
+
 </head>
 
 <body>
@@ -186,7 +207,7 @@ window.onload = function() { setDate(); }
 		<form method="POST" action="create_post" id="post">
 			<input type="text" placeholder="Title goes here ... [REQUIRED] " required="true" name="title" class="full-width" id="title" value="${requestScope.editablePost.title }"/>
 			<div id="post-info"><span id="odate"></span><label> | </label><input type="text" required="true" name="auth" value="${sessionScope.user.fname}&nbsp;${sessionScope.user.lname}"/></div>
-			<textarea name="body" placeholder="Type here ...">${requestScope.editablePost.body }</textarea>
+			<textarea name="bodyx" id="bodyx" class="widgEditor nothing" placeholder="Type here ...">${requestScope.editablePost.body }</textarea>
 			<input type="hidden" name="mode" value="create" id="mode"/>
 			<input type="hidden" required="true" name="date" id="date"  value=""/>
 			<c:if test="${not empty requestScope.editablePost }">
