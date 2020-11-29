@@ -6,6 +6,7 @@ import java.sql.JDBCType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,20 +47,20 @@ public class Home extends HttpServlet {
 
 	
 	
-	private HashMap<Integer, HashMap<Integer, ArrayList<SummarisedPost>>> viewTree(ArrayList<SummarisedPost> posts) {
+	private TreeMap<Integer, TreeMap<Integer, ArrayList<SummarisedPost>>> viewTree(ArrayList<SummarisedPost> posts) {
 
-		HashMap<Integer, HashMap<Integer, ArrayList<SummarisedPost>>> map = new HashMap<>();
+		TreeMap<Integer, TreeMap<Integer, ArrayList<SummarisedPost>>> map = new TreeMap<>(Collections.reverseOrder());
 		
 		for(SummarisedPost sp : posts) {
 			
 			int year = Integer.valueOf(sp.getDate().substring(0,4));
 			int month = Integer.valueOf(sp.getDate().substring(5,7));
 			
-			HashMap<Integer, ArrayList<SummarisedPost>> monthMap;
+			TreeMap<Integer, ArrayList<SummarisedPost>> monthMap;
 			
 			if(map.containsKey(year)) {
 				
-				monthMap = (HashMap<Integer, ArrayList<SummarisedPost>>)map.get(year);
+				monthMap = (TreeMap<Integer, ArrayList<SummarisedPost>>)map.get(year);
 				
 				if(monthMap.containsKey(month)) {
 					((ArrayList<SummarisedPost>)monthMap.get(month)).add(sp);
@@ -72,7 +73,7 @@ public class Home extends HttpServlet {
 				
 			} else {
 				
-				monthMap = new HashMap<>();
+				monthMap = new TreeMap<>(Collections.reverseOrder());
 				
 				ArrayList<SummarisedPost> arr = new ArrayList<>();
 				arr.add(sp);
