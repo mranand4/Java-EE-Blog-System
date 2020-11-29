@@ -105,6 +105,11 @@ window.onload = function() {
 	var d = new Date();
 	createCalendar("cal", d.getFullYear(), d.getMonth() + 1, d.getDate());
 }
+
+function getMonthName(month) {
+	months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	return months[month-1];
+}
 </script>
 
 
@@ -149,6 +154,28 @@ window.onload = function() {
 							<li><a href="post?postId=${mvp.postId}" target="_blank">${mvp.title}</a></li>
 						</c:forEach>
 					</ol>
+				</div>
+			</div>
+			<div class="sidebar-box">
+				<h3>Blog Archive</h3>
+				<div class="sidebar-box-body">
+					<ul>
+						<c:forEach var="year" items="${requestScope.archive}">
+							<li>${year.key}
+							<ul>
+							<c:forEach var="month" items="${year.value}">
+								<li><script>document.write(getMonthName(${month.key}));</script>
+								<ul>
+								<c:forEach var="post" items="${month.value}">
+									<li><a href="post?postId=${post.postId}">${post.title}</a></li>
+								</c:forEach>
+								</ul>
+								</li>
+							</c:forEach>
+							</ul>
+							</li>
+						</c:forEach>
+					</ul>
 				</div>
 			</div>
 			<div class="sidebar-box">

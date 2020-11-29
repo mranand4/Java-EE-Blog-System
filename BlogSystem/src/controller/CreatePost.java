@@ -100,7 +100,7 @@ public class CreatePost extends HttpServlet {
 		String mode = request.getParameter("mode");
 		String postId = request.getParameter("pid");
 		
-		System.out.println(body);
+		//System.out.println(body);
 		
 		
 		

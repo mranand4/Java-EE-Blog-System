@@ -207,9 +207,14 @@ public class DbOpsPost {
 				
 				ps2.setInt(1, post_id);
 				
+				System.out.println("original body was : \n" + body);
+				
 				if(body != null && body.length() > 400) {
 					body = body.substring(0, 397) + "...";
+					System.out.println("\n\nTrimmed\n\n");
 				}
+				
+				System.out.println("new body is : \n" + body);
 				
 				ps2.setString(2, body);
 				
@@ -261,9 +266,14 @@ public class DbOpsPost {
 				
 				ps2 = conn.prepareStatement(query2);
 						
+				System.out.println("original body was : \n" + body);
+				
 				if(body != null && body.length() > 400) {
 					body = body.substring(0, 397) + "...";
+					System.out.println("\n\nTrimmed\n\n");
 				}
+				
+				System.out.println("new body is : \n" + body);
 				
 				ps2.setString(1, body);
 				ps2.setInt(2, postId);
